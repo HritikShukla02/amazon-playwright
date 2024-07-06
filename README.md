@@ -5,12 +5,12 @@ This Scrapy spider conquers dynamic websites! Enter a keyword, and it leverages 
 ### cloning the repo:
  - open the folder through cmd where you want to clone this scraper.
  - run the command: **git clone https://github.com/HritikShukla02/amazon-playwright.git**.
- - Optional set up and your virtual environment.
 
 Since www.amazon.in has a very advanced spider detecting system we need to use proxy to bypass the checks. before starting with spider create a free account on **https://www.scraperapi.com**. You will get 5000 API credits for a free account that will do it for us.
 ### Setting up the environment:
- - Run command **pip3 install -r requirements.txt**
- - cd into base directory: **cd amazon-playwright**
+ - cd into base directory: **cd amazon-playwright**.
+ - Set up and your virtual environment with command **source .venv/bin/activate**.
+ - Run command **pip3 install -r requirements.txt**.
  - create a **.env** file and store your scraperapi account's api-key in format: **API_KEY=YOURAPIKEY**.
  - If you are running this scraper for the first time you need to install the browser for playwright with command: **playwright install chromium**.
 
