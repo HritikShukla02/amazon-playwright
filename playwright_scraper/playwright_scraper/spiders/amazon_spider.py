@@ -1,26 +1,32 @@
-from typing import Iterable
 import scrapy
 from scrapy_playwright.page import PageMethod
 from playwright_scraper.items import PlaywrightScraperItem
 from urllib.parse import urlencode
-
 from dotenv import load_dotenv
 import os
+
 
 def configure():
     load_dotenv()
 
+
 configure()
+
+
 API_KEY = os.getenv('API_KEY')
+KEYWORD = 'pendrive'
+
+
 def get_proxy_url(url):
     payload = {'api_key': API_KEY, 'url': url}
     proxy_url = 'http://api.scraperapi.com/?' + urlencode(payload)
     return proxy_url
 
+
 class AmazonSpiderSpider(scrapy.Spider):
     name = "amazon_spider"
     # allowed_domains = ["www.amazon.in", "proxy.scrapeops.io"]
-    start_urls = ["https://www.amazon.in/s?k=pendrive",]
+    start_urls = [f"https://www.amazon.in/s?k={KEYWORD}",]
 
 
     def start_requests(self):
@@ -33,44 +39,24 @@ class AmazonSpiderSpider(scrapy.Spider):
                 ],
                 errback=self.errback
             ))
+
+
     async def parse(self, response):
         
         links = response.css('div.a-section.s-title-instructions-style[data-cy="title-recipe"] h2 a::attr(href)').getall()
         # links_ = ['https://www.amazon.in' + link for link in links]
         for link in links:
-            
             url = 'https://www.amazon.in' + link
-            print(f'\n\n\n\n\n\\n\n\n\n\n{url}\n\n\n\n\n\n\n\n\n\n\n\n')
-        
+                    
             yield scrapy.Request(get_proxy_url(url), callback=self.parse_item, 
                 meta=dict(
                 playwright = True,
                 playwright_include_page = True,
                 playwright_page_methods = [
                     PageMethod('wait_for_selector', 'table.a-normal.a-spacing-micro'),
-                    # PageMethod('go_back')
                 ]),
                 errback=self.errback
-
             )
-            
-    
-        
-
-        # next = response.css('span.s-pagination-strip > a ::attr(href)').get()
-        
-        # if next:
-        #     next_page = 'https://www.amazon.in' + next
-        #     yield scrapy.Request(get_proxy_url(next_page), meta=dict(
-        #         playwright =  True,
-        #         playwright_include_page = True,
-        #         playwright_page_methods = [
-        #             # PageMethod('close'),
-        #             PageMethod("wait_for_selector", 'div.s-pagination-container[role="navigation"]'),  # Replace with a selector that indicates the form was submitted
-
-        #         ],
-        #     ))
-
 
 
     async def parse_item(self, response):
@@ -91,6 +77,7 @@ class AmazonSpiderSpider(scrapy.Spider):
 
 
         yield item
+
 
     async def errback(self, failure):
         page = failure.request.meta["playwright_page"]

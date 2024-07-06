@@ -106,34 +106,3 @@ class PlaywrightScraperDownloaderMiddleware:
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
 
-
-# class AmazonMiddleware:
-#     def process_request(self, request, spider):
-#         with sync_playwright() as p:
-#             browser = p.chromium.launch()
-#             page = browser.new_page()
-#             page.goto(request.url)
-#             # page.screenshot(path='amazon.png')
-#             page.get_by_placeholder("Search Amazon.in", exact=True).fill("Kingston Pendrive 256GB")
-#             page.get_by_placeholder("Search Amazon.in", exact=True).press("Enter")
-#             expect(page.get_by_text("Check each product page for other buying options.")).to_be_visible()
-#             # page.screenshot(path='amazon2.png', full_page=True)
-#             # count = 2
-#             # print(page.locator('css=span.s-pagination-disabled[aria-disabled="true"]'))
-#             while not page.locator('span.s-pagination-disabled[aria-disabled="true"]:has-text("Next")').is_visible():
-#                 # count += 1
-#                 body = page.content()
-#                 page.locator('a:has-text("Next")').click()
-#                 expect(page.get_by_text("Need help?")).to_be_visible()
-
-#                 response = HtmlResponse(url=page.url, body=body, encoding='utf-8', request=request)
-#                 yield response
-#                 # expect(page.get_by_role('navigation')).to_be_visible()
-
-#                 # page.screenshot(path=f'amazon{count}.png', full_page=True)
-        
-#             # page.g
-            
-
-#             browser.close()
-

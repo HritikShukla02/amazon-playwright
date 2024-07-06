@@ -118,5 +118,5 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 FEED_EXPORT_ENCODING = "utf-8"
 
 FEEDS = {
-    'output.json': {'format':'json'}
+    'result.json': {'format':'json', 'overwrite':True}
 }
